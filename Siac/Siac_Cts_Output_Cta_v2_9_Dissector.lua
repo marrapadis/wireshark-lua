@@ -154,6 +154,8 @@ siac_cts_output_cta_v2_9.fields.trade_price_short = ProtoField.new("Trade Price 
 siac_cts_output_cta_v2_9.fields.trade_reporting_facility_id = ProtoField.new("Trade Reporting Facility Id", "siac.cts.output.cta.v2.9.tradereportingfacilityid", ftypes.STRING)
 siac_cts_output_cta_v2_9.fields.trade_through_exempt_indicator = ProtoField.new("Trade Through Exempt Indicator", "siac.cts.output.cta.v2.9.tradethroughexemptindicator", ftypes.STRING)
 siac_cts_output_cta_v2_9.fields.trade_through_exempt_reason = ProtoField.new("Trade Through Exempt Reason", "siac.cts.output.cta.v2.9.tradethroughexemptreason", ftypes.STRING)
+siac_cts_output_cta_v2_9.fields.category_3 = ProtoField.new("Category_3", "siac.cts.output.cta.v2.9.category_3", ftypes.STRING)
+siac_cts_output_cta_v2_9.fields.category_4 = ProtoField.new("Category_4", "siac.cts.output.cta.v2.9.category_4", ftypes.STRING)
 siac_cts_output_cta_v2_9.fields.trade_total_volume = ProtoField.new("Trade Total Volume", "siac.cts.output.cta.v2.9.tradetotalvolume", ftypes.UINT64)
 siac_cts_output_cta_v2_9.fields.trade_volume = ProtoField.new("Trade Volume", "siac.cts.output.cta.v2.9.tradevolume", ftypes.UINT32)
 siac_cts_output_cta_v2_9.fields.trade_volume_short = ProtoField.new("Trade Volume Short", "siac.cts.output.cta.v2.9.tradevolumeshort", ftypes.UINT16)
@@ -1423,6 +1425,94 @@ siac_cts_output_cta_v2_9_dissect.settlement_type = function(buffer, offset, pack
   return offset + length, value
 end
 
+-- Size: Extended Hours / Sequence Type
+siac_cts_output_cta_v2_9_size_of.category_3 = 1
+
+-- Display: Extended Hours / Sequence Type
+siac_cts_output_cta_v2_9_display.category_3 = function(value)
+  if value == " " then
+    return "Extended Hours / Sequence Type: No Reason (<whitespace>)"
+  end
+  if value == "L" then
+    return "Extended Hours / Sequence Type: Sold Last(Late Reporting) (L)"
+  end
+  if value == "T" then
+    return "Extended Hours / Sequence Type: Extended Hours Trade (T)"
+  end
+  if value == "U" then
+    return "Extended Hours / Sequence Type: Extended Hours Sold(Out of Sequence) (U)"
+  end
+  if value == "Z" then
+    return "Extended Hours / Sequence Type: Sold (Out of Sequence) (Z)"
+  end
+  return "Extended Hours / Sequence Type: Unknown("..value..")"
+end
+
+-- Dissect: Extended Hours / Sequence Type
+siac_cts_output_cta_v2_9_dissect.category_3 = function(buffer, offset, packet, parent)
+  local length = siac_cts_output_cta_v2_9_size_of.category_3
+  local range = buffer(offset, length)
+  local value = range:string()
+  local display = siac_cts_output_cta_v2_9_display.category_3(value, buffer, offset, packet, parent)
+
+  parent:add(siac_cts_output_cta_v2_9.fields.category_3, range, value, display)
+
+  return offset + length, value
+end
+
+
+-- Size: SRO Trade Detail
+siac_cts_output_cta_v2_9_size_of.category_4 = 1
+
+-- Display: SRO Trade Detail
+siac_cts_output_cta_v2_9_display.category_4 = function(value)
+  if value == " " then
+    return "SRO Trade Detail: No Reason (<whitespace>)"
+  end
+  if value == "B" then
+    return "SRO Trade Detail: Average Price Trade (B)"
+  end
+  if value == "E" then
+    return "SRO Trade Detail: Automatic Execution (E)"
+  end
+  if value == "H" then
+    return "SRO Trade Detail: Price Variation Trade (H)"
+  end
+  if value == "I" then
+    return "SRO Trade Detail: Odd Lot Trade (I)"
+  end
+   if value == "K" then
+    return "SRO Trade Detail: Rule 127 (K)"
+  end
+  if value == "M" then
+    return "SRO Trade Detail: Market Center Official Close (M)"
+  end
+    if value == "P" then
+    return "SRO Trade Detail: Prior Reference Price (P)"
+  end
+  if value == "Q" then
+    return "SRO Trade Detail: Market Center Official Open (Q)"
+  end
+   if value == "V" then
+    return "SRO Trade Detail: Contingent Trade(V)"
+  end
+  if value == "X" then
+    return "SRO Trade Detail: Cross / Periodic Auction Trade(X)"
+  end
+  return "SRO Trade Detail: Unknown("..value..")"
+end
+
+-- Dissect: SRO Trade Detail
+siac_cts_output_cta_v2_9_dissect.category_4 = function(buffer, offset, packet, parent)
+  local length = siac_cts_output_cta_v2_9_size_of.category_4
+  local range = buffer(offset, length)
+  local value = range:string()
+  local display = siac_cts_output_cta_v2_9_display.category_4(value, buffer, offset, packet, parent)
+
+  parent:add(siac_cts_output_cta_v2_9.fields.category_4, range, value, display)
+
+  return offset + length, value
+end
 -- Calculate size of: Sale Conditions
 siac_cts_output_cta_v2_9_size_of.sale_conditions = function(buffer, offset)
   local index = 0
